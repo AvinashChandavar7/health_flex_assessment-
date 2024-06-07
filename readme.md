@@ -8,6 +8,10 @@
 
 ---
 
+### Swagger Documentation
+
+- [Swagger documentation](https://health-flex-assessment.onrender.com/api-docs/)
+
 ### Installation steps:
 
 1. Clone the project repository from your version control system (e.g., Git):

@@ -8,7 +8,7 @@ const config = {
   },
   servers: [
     { url: 'http://localhost:8000', description: 'Local server' },
-    { url: 'https://api.example.com', description: 'Production server' }
+    { url: 'https://health-flex-assessment.onrender.com', description: 'Production server' }
   ],
   schemes: ['http', 'https'],
   tags: [],
