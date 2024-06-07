@@ -42,6 +42,10 @@ userSchema.pre<IUser>('save', async function (next) {
 
 });
 
+userSchema.methods.isPasswordCorrect = async function (password: string) {
+  return bcrypt.compare(password, this.password);
+};
+
 userSchema.methods.generateRefreshToken = function () {
   const payload = { userId: this._id };
   const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET as string;
