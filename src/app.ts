@@ -25,11 +25,11 @@ app.use(cookieParser());
 
 // Routes
 import userRoutes from "./routes/users.routes"
-import authRoutes from "./routes/auth.routes"
+import tweetRoutes from "./routes/tweets.routes"
 
 
-app.use("/api/v1/auth", authRoutes)
 app.use("/api/v1/users", userRoutes)
+app.use("/api/v1/tweets", tweetRoutes)
 
 
 const options = { explorer: true, }
