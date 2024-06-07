@@ -11,7 +11,7 @@
       "description": "Local server"
     },
     {
-      "url": "https://api.example.com",
+      "url": "https://health-flex-assessment.onrender.com",
       "description": "Production server"
     }
   ],
