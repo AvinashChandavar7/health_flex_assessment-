@@ -30,6 +30,9 @@ const tweetSchema: Schema<ITweet> = new Schema(
   { timestamps: true }
 );
 
+tweetSchema.index({ createdAt: -1 });
+tweetSchema.index({ userId: 1, createdAt: -1 });
+tweetSchema.index({ userId: 1, createdAt: -1, text: 1 });
 
 const Tweet = models.Tweet || model<ITweet>("Tweet", tweetSchema);
 

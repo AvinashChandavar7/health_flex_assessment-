@@ -97,10 +97,19 @@ const getUserTimeline = asyncHandler(async (req, res) => {
   const cursor = req.query.cursor as string;
   const limit = parseInt(req.query.limit as string) || 10;
 
+  if (!userId) {
+    throw new ApiError(400, "User ID is required");
+  }
+
   const query: any = { userId };
 
   if (cursor) {
-    query.createdAt = { $lt: cursor };
+
+    if (isNaN(Date.parse(cursor))) {
+      throw new ApiError(400, "Invalid cursor format");
+    }
+
+    query.createdAt = { $lt: new Date(cursor) };
   }
 
   const tweets = await Tweet.find(query)
