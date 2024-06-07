@@ -1,1 +1,1 @@
-export const DB_NAME = "" as string;
+export const DB_NAME = "health_flex_assessment" as string;
