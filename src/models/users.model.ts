@@ -1,5 +1,6 @@
 import mongoose, { Schema, models, model, Document } from "mongoose";
 import bcrypt from 'bcryptjs';
+import jwt, { SignOptions } from "jsonwebtoken";
 
 export interface IUser extends Document {
   _id: mongoose.Types.ObjectId;
@@ -40,6 +41,17 @@ userSchema.pre<IUser>('save', async function (next) {
   }
 
 });
+
+userSchema.methods.generateRefreshToken = function () {
+  const payload = { userId: this._id };
+  const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET as string;
+  const refreshTokenExpiry = process.env.REFRESH_TOKEN_EXPIRY as string;
+
+  const signOptions: SignOptions = { expiresIn: refreshTokenExpiry };
+
+  return jwt.sign(payload, refreshTokenSecret, signOptions)
+}
+
 
 
 const User = models.User || model<IUser>("User", userSchema);
