@@ -1,3 +1,4 @@
+import Tweet from "../models/tweets.model";
 import User from "../models/users.model";
 import { ApiError } from "../utils/ApiError";
 import { ApiResponse } from "../utils/ApiResponse";
@@ -88,10 +89,24 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "User successfully LogOut"));
 })
 
+const getUserTimeline = asyncHandler(async (req, res) => {
+  //#swagger.tags = ['User']
+  const { userId } = req.params
+
+  const tweets = await Tweet.find({ userId })
+    .select("-updatedAt -__v")
+    .sort({ createdAt: -1 });
+
+
+  return res.status(200)
+    .json(new ApiResponse(200, tweets, "User successfully getting Timeline"));
+})
+
 
 export {
   registerUser,
   loginUser,
-  logoutUser
+  logoutUser,
 
+  getUserTimeline
 }
