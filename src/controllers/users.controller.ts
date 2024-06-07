@@ -92,14 +92,37 @@ const logoutUser = asyncHandler(async (req, res) => {
 const getUserTimeline = asyncHandler(async (req, res) => {
   //#swagger.tags = ['User']
   const { userId } = req.params
+  const id = req.userId;
 
-  const tweets = await Tweet.find({ userId })
+  const cursor = req.query.cursor as string;
+  const limit = parseInt(req.query.limit as string) || 10;
+
+  const query: any = { userId };
+
+  if (cursor) {
+    query.createdAt = { $lt: cursor };
+  }
+
+  const tweets = await Tweet.find(query)
     .select("-updatedAt -__v")
-    .sort({ createdAt: -1 });
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .lean();
 
+  if (!tweets || tweets.length === 0) {
+    throw new ApiError(404, "No tweets found for the user");
+  }
+
+  const newCursor = tweets.length > 0 ? tweets[tweets.length - 1].createdAt : null;
+
+  const data = {
+    total: tweets.length,
+    nextCursor: newCursor,
+    tweets,
+  }
 
   return res.status(200)
-    .json(new ApiResponse(200, tweets, "User successfully getting Timeline"));
+    .json(new ApiResponse(200, data, "User successfully getting Timeline"));
 })
 
 
