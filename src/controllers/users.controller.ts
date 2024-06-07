@@ -75,5 +75,23 @@ const loginUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, { userId: user._id }, "User successfully login"));
 })
 
+const logoutUser = asyncHandler(async (req, res) => {
+  //#swagger.tags = ['User-Auth']
 
-export { registerUser, loginUser }
+  const options = {
+    httpOnly: true,
+    expires: new Date(0)
+  };
+
+  return res.status(200)
+    .cookie("auth_Token", "", options)
+    .json(new ApiResponse(200, "User successfully LogOut"));
+})
+
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser
+
+}
